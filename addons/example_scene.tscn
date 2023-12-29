@@ -1,15 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfvv0a13pg6vg"]
+[gd_scene load_steps=7 format=3 uid="uid://bfvv0a13pg6vg"]
 
 [ext_resource type="Script" path="res://addons/FlowField/src/flow_field.gd" id="1_alqke"]
+[ext_resource type="Script" path="res://addons/FlowField/src/FieldSet.gd" id="2_tmogp"]
+[ext_resource type="Texture2D" uid="uid://c5o4ytvnybkwl" path="res://addons/FlowField/assets/ColorPick.svg" id="2_wjmyr"]
+
+[sub_resource type="Resource" id="Resource_nm7fa"]
+script = ExtResource("2_tmogp")
+tileSize = Vector2(16, 16)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xeehl"]
+texture = ExtResource("2_wjmyr")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_bqaff"]
+sources/0 = SubResource("TileSetAtlasSource_xeehl")
 
 [node name="example_scene" type="Node2D"]
 
 [node name="FlowField" type="Node2D" parent="."]
 script = ExtResource("1_alqke")
-
-[node name="FlowField2" type="Node2D" parent="."]
-script = ExtResource("1_alqke")
-chuckSize = Vector2i(2, 2)
+field_set = SubResource("Resource_nm7fa")
 
 [node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_bqaff")
 format = 2
+layer_0/tile_data = PackedInt32Array(-524274, 0, 0, -655367, 0, 0)

@@ -142,6 +142,23 @@ icon = ExtResource("7_v0ytr")
 icon_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="tools_buttons"]
+visible = false
+layout_mode = 2
+
+[node name="SpinBox" type="SpinBox" parent="tools_buttons"]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+tooltip_text = "Tile set value.
+Page Up & Page Down to step value by 1.
+Hold ALT: step value by 5.
+Hold CTRL: step value by 10.
+Hold ALT + CTRL: step value by 100."
+rounded = true
+allow_greater = true
+allow_lesser = true
+
+[node name="VSeparator2" type="VSeparator" parent="tools_buttons"]
 layout_mode = 2
 
 [node name="Picker" type="Button" parent="tools_buttons"]
@@ -186,6 +203,7 @@ icon_alignment = 1
 [connection signal="pressed" from="tools_buttons/Line" to="." method="_change_tool_type" binds= [4]]
 [connection signal="pressed" from="tools_buttons/Rect" to="." method="_change_tool_type" binds= [8]]
 [connection signal="pressed" from="tools_buttons/Bucket" to="." method="_change_tool_type" binds= [16]]
+[connection signal="value_changed" from="tools_buttons/SpinBox" to="." method="_change_bias"]
 [connection signal="toggled" from="tools_buttons/Picker" to="." method="_toggle_picker"]
 [connection signal="toggled" from="tools_buttons/Eraser" to="." method="_toggle_eraser"]
 [connection signal="toggled" from="tools_buttons/Grid" to="." method="_toggle_grid"]

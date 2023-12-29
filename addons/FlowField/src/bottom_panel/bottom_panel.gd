@@ -1,29 +1,54 @@
 @tool
 extends Control
 
-enum TOOL {SELECTION = 1, PAINT = 2, LINE = 4, RECT = 8, BUCKET = 16};
-var _tool_type : int = 0b00001;
-var _picker : bool = false;
-var _eraser : bool = false;
-var _grid : bool = true;
-
-signal tool_type_changed(tool : TOOL);
+signal tool_type_changed(tool : int);
 signal picker_changed(toggle : bool);
 signal eraser_changed(toggle : bool);
 signal grid_changed(toggle : bool);
+signal bias_changed(bias : int);
 
-func _change_tool_type(tool_type : TOOL):
-	_tool_type = tool_type;
+@onready var _separator : VSeparator = $tools_buttons/VSeparator;
+@onready var _spinbox : SpinBox = $tools_buttons/SpinBox;
+
+func _input(event: InputEvent) -> void:
+	if _spinbox.visible:
+		if event.is_action_pressed("ui_page_up"):
+			if Input.is_key_pressed(KEY_CTRL):
+				if Input.is_key_pressed(KEY_ALT):
+					_spinbox.value += 100;
+					return;
+				_spinbox.value += 10;
+				return;
+			if Input.is_key_pressed(KEY_ALT):
+				_spinbox.value += 5;
+				return;
+			_spinbox.value += 1;
+		elif event.is_action_pressed("ui_page_down"):
+			if Input.is_key_pressed(KEY_CTRL):
+				if Input.is_key_pressed(KEY_ALT):
+					_spinbox.value -= 100;
+					return;
+				_spinbox.value -= 10;
+				return;
+			if Input.is_key_pressed(KEY_ALT):
+				_spinbox.value -= 5;
+				return;
+			_spinbox.value -= 1;
+
+func _change_tool_type(tool_type : int):
 	tool_type_changed.emit(tool_type);
+	
+	_separator.visible = (tool_type > 1);
+	_spinbox.visible = (tool_type > 1);
 
 func _toggle_picker(toggle: bool) -> void:
-	_picker = toggle;
 	picker_changed.emit(toggle);
 
 func _toggle_eraser(toggle: bool) -> void:
-	_eraser = toggle;
 	eraser_changed.emit(toggle);
 
 func _toggle_grid(toggle: bool) -> void:
-	_grid = toggle;
 	grid_changed.emit(toggle);
+
+func _change_bias(bias: float) -> void:
+	bias_changed.emit(bias as int);
