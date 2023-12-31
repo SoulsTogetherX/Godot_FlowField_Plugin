@@ -1,7 +1,7 @@
 @tool
 class_name FlowField extends Node2D
 
-enum FLOWFIELD_TYPE {Orthogonal};
+enum FLOWFIELD_TYPE {Square};
 
 const FALL_BACK_COLOR : Color = Color(0, 0.50980395078659, 1);
 
@@ -21,38 +21,50 @@ const FALL_BACK_COLOR : Color = Color(0, 0.50980395078659, 1);
 @export_group("Display")
 @export var show_in_color : bool = true:
 	set(val):
+		if !is_inside_tree():
+			await ready;
+		
 		show_in_color = val;
 		queue_redraw();
 		notify_property_list_changed();
 var heatmap : bool = true:
 	set(val):
+		if !is_inside_tree():
+			await ready;
+		
 		heatmap = val;
 		queue_redraw();
 		notify_property_list_changed();
 var exact_coloring : bool = false:
 	set(val):
 		exact_coloring = val;
-		if !exact_coloring:
-			if !is_inside_tree():
-				await ready;
+		if !is_inside_tree():
+			await ready;
 			
-			_get_highlight_colors();
-			queue_redraw();
+		_get_highlight_colors();
+		queue_redraw();
 		notify_property_list_changed();
-var gradient : Gradient = null:
+var gradient : Gradient:
 	set(val):
-		if val == gradient:
-			return;
+		if gradient:
+			gradient.changed.disconnect(_changed);
 		
 		if val == null:
 			gradient = _get_default_gradient();
 		else:
 			gradient = val;
+		
+		gradient.changed.connect(_changed);
+		_changed();
+
 var _highlight_colors : Dictionary;
 var highlight_colors : Dictionary:
 	get:
 		return _highlight_colors;
 	set(val):
+		if !is_inside_tree():
+			await ready;
+		
 		_fix_highlight_colors(val);
 		queue_redraw();
 var display_numbers : bool = false:
@@ -111,7 +123,9 @@ signal changed();
 func _ready() -> void:
 	if !_default_font:
 		_default_font = SystemFont.new();
-		
+	
+	if !is_instance_valid(gradient):
+		gradient = null;
 	_get_highlight_colors();
 
 func _changed() -> void:
@@ -188,6 +202,8 @@ func _fix_highlight_colors(apply : Dictionary = Dictionary()) -> void:
 		_highlight_colors[num] = gradient.sample((num - low) / high);
 
 func _draw() -> void:
+	print("redraw")
+	
 	var tiles = field_set._flowFieldPattern
 	var tileSize : Vector2 = field_set.tileSize
 	var tile_rect : Rect2 = Rect2(Vector2.ZERO, tileSize);

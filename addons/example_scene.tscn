@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://bfvv0a13pg6vg"]
+[gd_scene load_steps=44 format=3 uid="uid://bfvv0a13pg6vg"]
 
 [ext_resource type="Script" path="res://addons/FlowField/src/flow_field.gd" id="1_alqke"]
 [ext_resource type="Script" path="res://addons/FlowField/src/flowFieldTile.gd" id="2_halff"]
@@ -12,426 +12,190 @@ texture = ExtResource("3_e6ke0")
 [sub_resource type="TileSet" id="TileSet_s802w"]
 sources/0 = SubResource("TileSetAtlasSource_tijge")
 
-[sub_resource type="Resource" id="Resource_tiebo"]
+[sub_resource type="Resource" id="Resource_7roel"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_7ujg6"]
+[sub_resource type="Resource" id="Resource_o1c5v"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_3dl4x"]
+[sub_resource type="Resource" id="Resource_ih8ps"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_v2ke0"]
+[sub_resource type="Resource" id="Resource_2es4q"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_gp1c4"]
+[sub_resource type="Resource" id="Resource_iixrk"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_ubjq8"]
+[sub_resource type="Resource" id="Resource_j4svn"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_378cn"]
+[sub_resource type="Resource" id="Resource_cd4mf"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_qptml"]
+[sub_resource type="Resource" id="Resource_hw17g"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_jc0g0"]
+[sub_resource type="Resource" id="Resource_hw778"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_cdrt5"]
+[sub_resource type="Resource" id="Resource_wa666"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_pqmrl"]
+[sub_resource type="Resource" id="Resource_gbkj6"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_t52qg"]
+[sub_resource type="Resource" id="Resource_spee2"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_nxy1v"]
+[sub_resource type="Resource" id="Resource_1wad0"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_gjt35"]
+[sub_resource type="Resource" id="Resource_r8e8h"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_vd37x"]
+[sub_resource type="Resource" id="Resource_e77bq"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_tmh3c"]
+[sub_resource type="Resource" id="Resource_s874d"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_s260w"]
+[sub_resource type="Resource" id="Resource_0kuxn"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_20jfy"]
+[sub_resource type="Resource" id="Resource_bnxba"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_qk0j3"]
+[sub_resource type="Resource" id="Resource_mg80a"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_8rnyr"]
+[sub_resource type="Resource" id="Resource_qux4s"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_qskg8"]
+[sub_resource type="Resource" id="Resource_85i43"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_kod5d"]
+[sub_resource type="Resource" id="Resource_ebgm7"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_52ian"]
+[sub_resource type="Resource" id="Resource_e44fn"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_gyk2g"]
+[sub_resource type="Resource" id="Resource_5jvnt"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_vgs2e"]
+[sub_resource type="Resource" id="Resource_fqyt8"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_j86ig"]
+[sub_resource type="Resource" id="Resource_4dd4k"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_nobxf"]
+[sub_resource type="Resource" id="Resource_26whv"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_mxg0a"]
+[sub_resource type="Resource" id="Resource_3kr7o"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_emc1t"]
+[sub_resource type="Resource" id="Resource_ydw5s"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_gll07"]
+[sub_resource type="Resource" id="Resource_34fe2"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_63h1l"]
+[sub_resource type="Resource" id="Resource_vxhvs"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_86gjg"]
+[sub_resource type="Resource" id="Resource_j6sq0"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_vsy5n"]
+[sub_resource type="Resource" id="Resource_cbboq"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_rkj78"]
+[sub_resource type="Resource" id="Resource_yifby"]
 script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
-[sub_resource type="Resource" id="Resource_85nv6"]
+[sub_resource type="Resource" id="Resource_ev6l1"]
 script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_ilvlx"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_wccbl"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_77l1u"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_kjslw"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_bqspx"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_myywq"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_xanl8"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_67jvq"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_4tqam"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_2n532"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_f6ljr"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_sh6sj"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_atrwv"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_jpc0k"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_6t0wo"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_uiwfs"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_t4gru"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_no1d8"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_vo0hf"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_umojv"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_f8qgv"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_orxpx"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_mybki"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_o1wvw"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_f2pl4"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_jaudd"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_6bo8g"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_jq0yg"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_m73ll"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_ou72y"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_o7sd6"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_do4hm"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_0niso"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_sikmc"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_d8yv5"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_bf2uh"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_lxm0q"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_b7vy2"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_n0cbt"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_47liy"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_7e6y0"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_pr1ul"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_rqx5b"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_mugxu"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_jeg38"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_sus5m"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_yb0yd"]
-script = ExtResource("2_halff")
-bias = 10
-
-[sub_resource type="Resource" id="Resource_858th"]
-script = ExtResource("2_halff")
-bias = 10
+bias = 0
 
 [sub_resource type="Resource" id="Resource_mqft3"]
 script = ExtResource("2_tmogp")
 tileSize = Vector2(16, 16)
 _flowFieldPattern = {
-Vector2i(17, 4): SubResource("Resource_no1d8"),
-Vector2i(17, 5): SubResource("Resource_f8qgv"),
-Vector2i(17, 6): SubResource("Resource_o1wvw"),
-Vector2i(17, 9): SubResource("Resource_6bo8g"),
-Vector2i(17, 10): SubResource("Resource_m73ll"),
-Vector2i(17, 11): SubResource("Resource_o7sd6"),
-Vector2i(17, 12): SubResource("Resource_sikmc"),
-Vector2i(18, 4): SubResource("Resource_vo0hf"),
-Vector2i(18, 5): SubResource("Resource_orxpx"),
-Vector2i(18, 6): SubResource("Resource_f2pl4"),
-Vector2i(18, 9): SubResource("Resource_tiebo"),
-Vector2i(18, 10): SubResource("Resource_7ujg6"),
-Vector2i(18, 11): SubResource("Resource_do4hm"),
-Vector2i(18, 12): SubResource("Resource_d8yv5"),
-Vector2i(19, 4): SubResource("Resource_umojv"),
-Vector2i(19, 5): SubResource("Resource_mybki"),
-Vector2i(19, 6): SubResource("Resource_jaudd"),
-Vector2i(19, 9): SubResource("Resource_jq0yg"),
-Vector2i(19, 10): SubResource("Resource_ou72y"),
-Vector2i(19, 11): SubResource("Resource_0niso"),
-Vector2i(19, 12): SubResource("Resource_bf2uh"),
-Vector2i(20, 12): SubResource("Resource_lxm0q"),
-Vector2i(21, 12): SubResource("Resource_b7vy2"),
-Vector2i(22, 12): SubResource("Resource_n0cbt"),
-Vector2i(24, 12): SubResource("Resource_47liy"),
-Vector2i(25, 12): SubResource("Resource_7e6y0"),
-Vector2i(26, 12): SubResource("Resource_pr1ul"),
-Vector2i(27, 12): SubResource("Resource_rqx5b"),
-Vector2i(29, 4): SubResource("Resource_sus5m"),
-Vector2i(29, 5): SubResource("Resource_yb0yd"),
-Vector2i(29, 6): SubResource("Resource_858th"),
-Vector2i(29, 7): SubResource("Resource_mugxu"),
-Vector2i(29, 8): SubResource("Resource_jeg38"),
-Vector2i(29, 9): SubResource("Resource_378cn"),
-Vector2i(29, 10): SubResource("Resource_cdrt5"),
-Vector2i(30, 3): SubResource("Resource_20jfy"),
-Vector2i(30, 4): SubResource("Resource_gyk2g"),
-Vector2i(30, 5): SubResource("Resource_nxy1v"),
-Vector2i(30, 6): SubResource("Resource_63h1l"),
-Vector2i(30, 7): SubResource("Resource_3dl4x"),
-Vector2i(30, 8): SubResource("Resource_gp1c4"),
-Vector2i(30, 9): SubResource("Resource_qptml"),
-Vector2i(30, 10): SubResource("Resource_pqmrl"),
-Vector2i(31, 3): SubResource("Resource_qk0j3"),
-Vector2i(31, 4): SubResource("Resource_vgs2e"),
-Vector2i(31, 5): SubResource("Resource_gjt35"),
-Vector2i(31, 6): SubResource("Resource_86gjg"),
-Vector2i(31, 7): SubResource("Resource_v2ke0"),
-Vector2i(31, 8): SubResource("Resource_ubjq8"),
-Vector2i(31, 9): SubResource("Resource_jc0g0"),
-Vector2i(31, 10): SubResource("Resource_t52qg"),
-Vector2i(32, 3): SubResource("Resource_8rnyr"),
-Vector2i(32, 4): SubResource("Resource_j86ig"),
-Vector2i(32, 5): SubResource("Resource_vd37x"),
-Vector2i(32, 6): SubResource("Resource_vsy5n"),
-Vector2i(32, 7): SubResource("Resource_wccbl"),
-Vector2i(32, 8): SubResource("Resource_myywq"),
-Vector2i(32, 9): SubResource("Resource_2n532"),
-Vector2i(32, 10): SubResource("Resource_jpc0k"),
-Vector2i(33, 3): SubResource("Resource_qskg8"),
-Vector2i(33, 4): SubResource("Resource_nobxf"),
-Vector2i(33, 5): SubResource("Resource_tmh3c"),
-Vector2i(33, 6): SubResource("Resource_rkj78"),
-Vector2i(33, 7): SubResource("Resource_77l1u"),
-Vector2i(33, 8): SubResource("Resource_xanl8"),
-Vector2i(33, 9): SubResource("Resource_f6ljr"),
-Vector2i(33, 10): SubResource("Resource_6t0wo"),
-Vector2i(34, 3): SubResource("Resource_kod5d"),
-Vector2i(34, 4): SubResource("Resource_mxg0a"),
-Vector2i(34, 5): SubResource("Resource_s260w"),
-Vector2i(34, 6): SubResource("Resource_85nv6"),
-Vector2i(34, 7): SubResource("Resource_kjslw"),
-Vector2i(34, 8): SubResource("Resource_67jvq"),
-Vector2i(34, 9): SubResource("Resource_sh6sj"),
-Vector2i(34, 10): SubResource("Resource_uiwfs"),
-Vector2i(35, 3): SubResource("Resource_52ian"),
-Vector2i(35, 4): SubResource("Resource_emc1t"),
-Vector2i(35, 5): SubResource("Resource_gll07"),
-Vector2i(35, 6): SubResource("Resource_ilvlx"),
-Vector2i(35, 7): SubResource("Resource_bqspx"),
-Vector2i(35, 8): SubResource("Resource_4tqam"),
-Vector2i(35, 9): SubResource("Resource_atrwv"),
-Vector2i(35, 10): SubResource("Resource_t4gru")
+Vector2i(15, 3): SubResource("Resource_7roel"),
+Vector2i(15, 4): SubResource("Resource_o1c5v"),
+Vector2i(15, 5): SubResource("Resource_ih8ps"),
+Vector2i(15, 6): SubResource("Resource_2es4q"),
+Vector2i(15, 7): SubResource("Resource_iixrk"),
+Vector2i(16, 3): SubResource("Resource_j4svn"),
+Vector2i(16, 4): SubResource("Resource_cd4mf"),
+Vector2i(16, 5): SubResource("Resource_hw17g"),
+Vector2i(16, 6): SubResource("Resource_hw778"),
+Vector2i(16, 7): SubResource("Resource_wa666"),
+Vector2i(17, 3): SubResource("Resource_gbkj6"),
+Vector2i(17, 4): SubResource("Resource_spee2"),
+Vector2i(17, 5): SubResource("Resource_1wad0"),
+Vector2i(17, 6): SubResource("Resource_r8e8h"),
+Vector2i(17, 7): SubResource("Resource_e77bq"),
+Vector2i(18, 3): SubResource("Resource_s874d"),
+Vector2i(18, 4): SubResource("Resource_0kuxn"),
+Vector2i(18, 5): SubResource("Resource_bnxba"),
+Vector2i(18, 6): SubResource("Resource_mg80a"),
+Vector2i(18, 7): SubResource("Resource_qux4s"),
+Vector2i(19, 3): SubResource("Resource_85i43"),
+Vector2i(19, 4): SubResource("Resource_ebgm7"),
+Vector2i(19, 5): SubResource("Resource_e44fn"),
+Vector2i(19, 6): SubResource("Resource_5jvnt"),
+Vector2i(19, 7): SubResource("Resource_fqyt8"),
+Vector2i(20, 3): SubResource("Resource_4dd4k"),
+Vector2i(20, 4): SubResource("Resource_26whv"),
+Vector2i(20, 5): SubResource("Resource_3kr7o"),
+Vector2i(20, 6): SubResource("Resource_ydw5s"),
+Vector2i(20, 7): SubResource("Resource_34fe2"),
+Vector2i(21, 3): SubResource("Resource_vxhvs"),
+Vector2i(21, 4): SubResource("Resource_j6sq0"),
+Vector2i(21, 5): SubResource("Resource_cbboq"),
+Vector2i(21, 6): SubResource("Resource_yifby"),
+Vector2i(21, 7): SubResource("Resource_ev6l1")
 }
+
+[sub_resource type="Gradient" id="Gradient_sxes5"]
+offsets = PackedFloat32Array(0, 0.143, 0.286, 0.429, 0.571, 0.714, 0.857, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 0.207843, 0.207843, 1, 1, 0.458824, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0.560784, 0, 0.560784, 1, 1, 1, 1, 1)
 
 [node name="example_scene" type="Node2D"]
 
@@ -445,8 +209,6 @@ modulate = Color(1, 1, 1, 0.8)
 script = ExtResource("1_alqke")
 field_set = SubResource("Resource_mqft3")
 heatmap = true
-exact_coloring = true
-highlight_colors = {
-10: Color(0.345098, 0.592157, 0.741176, 1)
-}
-display_numbers = true
+exact_coloring = false
+gradient = SubResource("Gradient_sxes5")
+display_numbers = false
