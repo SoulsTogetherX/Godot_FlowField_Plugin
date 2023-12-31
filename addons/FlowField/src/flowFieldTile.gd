@@ -1,7 +1,19 @@
-class_name FlowFieldTile extends RefCounted
+@tool
+class_name FlowFieldTile extends Resource
 
-var bias : float = 0;
-var value : float;
+@export var bias : int:
+	set(val):
+		if bias == val:
+			return;
+		bias = val;
+		changed.emit();
+var value : float:
+	set(val):
+		if value == val:
+			return;
+		value = val;
+		changed.emit();
 
-func _init(bias_val = 0) -> void:
-	bias = bias_val;
+func set_bias(val : int) -> FlowFieldTile:
+	bias = val;
+	return self;

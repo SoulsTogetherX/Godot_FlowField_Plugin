@@ -28,30 +28,51 @@ enum CellNeighbor {
 		changed.emit();
 
 # Vector2i -> FlowFieldCeil
-var _flowFieldPattern : Dictionary = {};
-var flowFieldPattern : Dictionary = {}:
-	get:
-		return _flowFieldPattern; 
-	set(val):
-		_flowFieldPattern = val;
-		changed.emit();
+var _flowFieldPattern : Dictionary;
 
-func set_tile(tile : FlowFieldTile) -> void:
-	_flowFieldPattern[tile.position] = tile;
+func _get_property_list():
+	var properties = [];
+	properties.append({
+		"name": "_flowFieldPattern",
+		"type": TYPE_DICTIONARY,
+		"usage": PROPERTY_USAGE_NO_EDITOR,
+	});
+
+	return properties;
+
+func has_tile(pos : Vector2i) -> bool:
+	return _flowFieldPattern.has[pos];
+
+func set_tiles(tiles : Dictionary) -> void:
+	for pos in tiles.keys():
+		_flowFieldPattern[pos] = tiles[pos];
 	changed.emit();
 
-func set_tiles(tiles : Array[FlowFieldTile]) -> void:
-	for tile in tiles:
-		_flowFieldPattern[tile.position] = tile;
-	changed.emit();
-
-func remove_tile(pos : Vector2i) -> void:
-	if _flowFieldPattern.has(pos):
+func remove_tiles(tiles : Dictionary) -> void:
+	for pos in tiles.keys():
 		_flowFieldPattern.erase(pos);
-		changed.emit();
-
-func remove_tiles(tiles : Array[Vector2i]) -> void:
-	for tile in tiles:
-		if _flowFieldPattern.has(tiles):
-			_flowFieldPattern.erase(tiles);
 	changed.emit();
+
+func get_used_rect() -> Rect2i:
+	var ret : Rect2i;
+	var first : bool = true;
+	for tile_pos : Vector2i in _flowFieldPattern.keys():
+		if first:
+			ret = Rect2i(tile_pos, Vector2i.ZERO);
+			first = false;
+		else:
+			ret.expand(tile_pos);
+	
+	return ret;
+
+func get_all_different_baises() -> Array[int]:
+	var ret : Array[int] = [];
+	var checker : Dictionary = {};
+	
+	for tile in _flowFieldPattern.values():
+		if checker.has(tile.bias):
+			continue;
+		checker[tile.bias] = null;
+		ret.append(tile.bias);
+	
+	return ret;

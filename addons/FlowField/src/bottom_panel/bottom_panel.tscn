@@ -154,9 +154,9 @@ Page Up & Page Down to step value by 1.
 Hold ALT: step value by 5.
 Hold CTRL: step value by 10.
 Hold ALT + CTRL: step value by 100."
+min_value = -65536.0
+max_value = 65536.0
 rounded = true
-allow_greater = true
-allow_lesser = true
 
 [node name="VSeparator2" type="VSeparator" parent="tools_buttons"]
 layout_mode = 2

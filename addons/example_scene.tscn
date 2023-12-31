@@ -1,27 +1,452 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfvv0a13pg6vg"]
+[gd_scene load_steps=91 format=3 uid="uid://bfvv0a13pg6vg"]
 
 [ext_resource type="Script" path="res://addons/FlowField/src/flow_field.gd" id="1_alqke"]
+[ext_resource type="Script" path="res://addons/FlowField/src/flowFieldTile.gd" id="2_halff"]
 [ext_resource type="Script" path="res://addons/FlowField/src/FieldSet.gd" id="2_tmogp"]
-[ext_resource type="Texture2D" uid="uid://c5o4ytvnybkwl" path="res://addons/FlowField/assets/ColorPick.svg" id="2_wjmyr"]
+[ext_resource type="Texture2D" uid="uid://bh20beo1kyu5a" path="res://addons/FlowField/assets/Bucket.svg" id="3_e6ke0"]
 
-[sub_resource type="Resource" id="Resource_nm7fa"]
-script = ExtResource("2_tmogp")
-tileSize = Vector2(16, 16)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xeehl"]
-texture = ExtResource("2_wjmyr")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tijge"]
+texture = ExtResource("3_e6ke0")
 0:0/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_bqaff"]
-sources/0 = SubResource("TileSetAtlasSource_xeehl")
+[sub_resource type="TileSet" id="TileSet_s802w"]
+sources/0 = SubResource("TileSetAtlasSource_tijge")
+
+[sub_resource type="Resource" id="Resource_tiebo"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_7ujg6"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_3dl4x"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_v2ke0"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_gp1c4"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_ubjq8"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_378cn"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_qptml"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_jc0g0"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_cdrt5"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_pqmrl"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_t52qg"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_nxy1v"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_gjt35"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_vd37x"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_tmh3c"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_s260w"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_20jfy"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_qk0j3"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_8rnyr"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_qskg8"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_kod5d"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_52ian"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_gyk2g"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_vgs2e"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_j86ig"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_nobxf"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_mxg0a"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_emc1t"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_gll07"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_63h1l"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_86gjg"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_vsy5n"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_rkj78"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_85nv6"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_ilvlx"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_wccbl"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_77l1u"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_kjslw"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_bqspx"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_myywq"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_xanl8"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_67jvq"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_4tqam"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_2n532"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_f6ljr"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_sh6sj"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_atrwv"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_jpc0k"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_6t0wo"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_uiwfs"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_t4gru"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_no1d8"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_vo0hf"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_umojv"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_f8qgv"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_orxpx"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_mybki"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_o1wvw"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_f2pl4"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_jaudd"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_6bo8g"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_jq0yg"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_m73ll"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_ou72y"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_o7sd6"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_do4hm"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_0niso"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_sikmc"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_d8yv5"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_bf2uh"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_lxm0q"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_b7vy2"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_n0cbt"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_47liy"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_7e6y0"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_pr1ul"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_rqx5b"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_mugxu"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_jeg38"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_sus5m"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_yb0yd"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_858th"]
+script = ExtResource("2_halff")
+bias = 10
+
+[sub_resource type="Resource" id="Resource_mqft3"]
+script = ExtResource("2_tmogp")
+tileSize = Vector2(16, 16)
+_flowFieldPattern = {
+Vector2i(17, 4): SubResource("Resource_no1d8"),
+Vector2i(17, 5): SubResource("Resource_f8qgv"),
+Vector2i(17, 6): SubResource("Resource_o1wvw"),
+Vector2i(17, 9): SubResource("Resource_6bo8g"),
+Vector2i(17, 10): SubResource("Resource_m73ll"),
+Vector2i(17, 11): SubResource("Resource_o7sd6"),
+Vector2i(17, 12): SubResource("Resource_sikmc"),
+Vector2i(18, 4): SubResource("Resource_vo0hf"),
+Vector2i(18, 5): SubResource("Resource_orxpx"),
+Vector2i(18, 6): SubResource("Resource_f2pl4"),
+Vector2i(18, 9): SubResource("Resource_tiebo"),
+Vector2i(18, 10): SubResource("Resource_7ujg6"),
+Vector2i(18, 11): SubResource("Resource_do4hm"),
+Vector2i(18, 12): SubResource("Resource_d8yv5"),
+Vector2i(19, 4): SubResource("Resource_umojv"),
+Vector2i(19, 5): SubResource("Resource_mybki"),
+Vector2i(19, 6): SubResource("Resource_jaudd"),
+Vector2i(19, 9): SubResource("Resource_jq0yg"),
+Vector2i(19, 10): SubResource("Resource_ou72y"),
+Vector2i(19, 11): SubResource("Resource_0niso"),
+Vector2i(19, 12): SubResource("Resource_bf2uh"),
+Vector2i(20, 12): SubResource("Resource_lxm0q"),
+Vector2i(21, 12): SubResource("Resource_b7vy2"),
+Vector2i(22, 12): SubResource("Resource_n0cbt"),
+Vector2i(24, 12): SubResource("Resource_47liy"),
+Vector2i(25, 12): SubResource("Resource_7e6y0"),
+Vector2i(26, 12): SubResource("Resource_pr1ul"),
+Vector2i(27, 12): SubResource("Resource_rqx5b"),
+Vector2i(29, 4): SubResource("Resource_sus5m"),
+Vector2i(29, 5): SubResource("Resource_yb0yd"),
+Vector2i(29, 6): SubResource("Resource_858th"),
+Vector2i(29, 7): SubResource("Resource_mugxu"),
+Vector2i(29, 8): SubResource("Resource_jeg38"),
+Vector2i(29, 9): SubResource("Resource_378cn"),
+Vector2i(29, 10): SubResource("Resource_cdrt5"),
+Vector2i(30, 3): SubResource("Resource_20jfy"),
+Vector2i(30, 4): SubResource("Resource_gyk2g"),
+Vector2i(30, 5): SubResource("Resource_nxy1v"),
+Vector2i(30, 6): SubResource("Resource_63h1l"),
+Vector2i(30, 7): SubResource("Resource_3dl4x"),
+Vector2i(30, 8): SubResource("Resource_gp1c4"),
+Vector2i(30, 9): SubResource("Resource_qptml"),
+Vector2i(30, 10): SubResource("Resource_pqmrl"),
+Vector2i(31, 3): SubResource("Resource_qk0j3"),
+Vector2i(31, 4): SubResource("Resource_vgs2e"),
+Vector2i(31, 5): SubResource("Resource_gjt35"),
+Vector2i(31, 6): SubResource("Resource_86gjg"),
+Vector2i(31, 7): SubResource("Resource_v2ke0"),
+Vector2i(31, 8): SubResource("Resource_ubjq8"),
+Vector2i(31, 9): SubResource("Resource_jc0g0"),
+Vector2i(31, 10): SubResource("Resource_t52qg"),
+Vector2i(32, 3): SubResource("Resource_8rnyr"),
+Vector2i(32, 4): SubResource("Resource_j86ig"),
+Vector2i(32, 5): SubResource("Resource_vd37x"),
+Vector2i(32, 6): SubResource("Resource_vsy5n"),
+Vector2i(32, 7): SubResource("Resource_wccbl"),
+Vector2i(32, 8): SubResource("Resource_myywq"),
+Vector2i(32, 9): SubResource("Resource_2n532"),
+Vector2i(32, 10): SubResource("Resource_jpc0k"),
+Vector2i(33, 3): SubResource("Resource_qskg8"),
+Vector2i(33, 4): SubResource("Resource_nobxf"),
+Vector2i(33, 5): SubResource("Resource_tmh3c"),
+Vector2i(33, 6): SubResource("Resource_rkj78"),
+Vector2i(33, 7): SubResource("Resource_77l1u"),
+Vector2i(33, 8): SubResource("Resource_xanl8"),
+Vector2i(33, 9): SubResource("Resource_f6ljr"),
+Vector2i(33, 10): SubResource("Resource_6t0wo"),
+Vector2i(34, 3): SubResource("Resource_kod5d"),
+Vector2i(34, 4): SubResource("Resource_mxg0a"),
+Vector2i(34, 5): SubResource("Resource_s260w"),
+Vector2i(34, 6): SubResource("Resource_85nv6"),
+Vector2i(34, 7): SubResource("Resource_kjslw"),
+Vector2i(34, 8): SubResource("Resource_67jvq"),
+Vector2i(34, 9): SubResource("Resource_sh6sj"),
+Vector2i(34, 10): SubResource("Resource_uiwfs"),
+Vector2i(35, 3): SubResource("Resource_52ian"),
+Vector2i(35, 4): SubResource("Resource_emc1t"),
+Vector2i(35, 5): SubResource("Resource_gll07"),
+Vector2i(35, 6): SubResource("Resource_ilvlx"),
+Vector2i(35, 7): SubResource("Resource_bqspx"),
+Vector2i(35, 8): SubResource("Resource_4tqam"),
+Vector2i(35, 9): SubResource("Resource_atrwv"),
+Vector2i(35, 10): SubResource("Resource_t4gru")
+}
 
 [node name="example_scene" type="Node2D"]
 
-[node name="FlowField" type="Node2D" parent="."]
-script = ExtResource("1_alqke")
-field_set = SubResource("Resource_nm7fa")
-
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource("TileSet_bqaff")
+tile_set = SubResource("TileSet_s802w")
 format = 2
-layer_0/tile_data = PackedInt32Array(-524274, 0, 0, -655367, 0, 0)
+layer_0/tile_data = PackedInt32Array(196620, 0, 0, 262156, 0, 0, 327693, 0, 0, 393229, 0, 0, 393230, 0, 0, 458766, 0, 0)
+
+[node name="FlowField" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.8)
+script = ExtResource("1_alqke")
+field_set = SubResource("Resource_mqft3")
+heatmap = true
+exact_coloring = true
+highlight_colors = {
+10: Color(0.345098, 0.592157, 0.741176, 1)
+}
+display_numbers = true
