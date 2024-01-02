@@ -1,26 +1,6 @@
 @tool
 class_name FieldSet2D extends Resource
 
-enum CellNeighbor {
-	CELL_NEIGHBOR_RIGHT_SIDE = 0,
-	CELL_NEIGHBOR_RIGHT_CORNER,
-	CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE,
-	CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER,
-	CELL_NEIGHBOR_BOTTOM_SIDE,
-	CELL_NEIGHBOR_BOTTOM_CORNER,
-	CELL_NEIGHBOR_BOTTOM_LEFT_SIDE,
-	CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
-	CELL_NEIGHBOR_LEFT_SIDE,
-	CELL_NEIGHBOR_LEFT_CORNER,
-	CELL_NEIGHBOR_TOP_LEFT_SIDE,
-	CELL_NEIGHBOR_TOP_LEFT_CORNER,
-	CELL_NEIGHBOR_TOP_SIDE,
-	CELL_NEIGHBOR_TOP_CORNER,
-	CELL_NEIGHBOR_TOP_RIGHT_SIDE,
-	CELL_NEIGHBOR_TOP_RIGHT_CORNER,
-	CELL_NEIGHBOR_MAX,
-};
-
 @export var tileSize  : Vector2  = Vector2(16, 16):
 	set(val):
 		tileSize.x = max(0.01, val.x);
@@ -78,8 +58,8 @@ func remove_tiles(tiles : Dictionary) -> void:
 func get_used_rect() -> Rect2i:
 	return _used_rect;
 
-func get_all_different_baises() -> Array[int]:
-	var ret : Array[int] = [];
+func get_all_different_baises() -> Array[float]:
+	var ret : Array[float] = [];
 	var checker : Dictionary = {};
 	
 	for tile in _flowFieldPattern.values():

@@ -1,7 +1,9 @@
+
+
 Position/scale/rotation/skew transformations break everything
 
-Add functionality
+Undo/Redo
 
-Add test path and path drawing
+Add way to access flow field movement
 
-Move a lot of the export color/number/display options to the bottom tab
+Color Picker/Patterns

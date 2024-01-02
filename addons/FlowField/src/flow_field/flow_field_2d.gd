@@ -1,16 +1,39 @@
 @tool
 class_name FlowField2D extends Node2D
 
-enum FLOWFIELD_TYPE {Square};
-enum COST_CHECK {Best, Worst};
+enum FLOWFIELD_TYPE {Square_four, Square_eight, Euclidean};
+enum COST_CHECK {Best = 1, Worst = -1};
 enum COLOR_PRESET {GRAY_SCALE = 0, BLUE_SCALE, HEAT_MAP, RAINBOW_SEVEN, RAINBOW_TEN, FLAT = 6, CUSTOM, EXACT};
 
-const INT_MAX : int = 9223372036854775807;
 const FALL_BACK_COLOR : Color = Color.CORNFLOWER_BLUE;
 const ARROW_IMAGE_TEXTURE : CompressedTexture2D = preload("res://addons/FlowField/assets/arrow_big.svg");
 
-@export var flow_type : FLOWFIELD_TYPE;
-@export var cost_check : COST_CHECK;
+const DIR_LEFT : Vector2i = Vector2i.LEFT;
+const DIR_RIGHT : Vector2i = Vector2i.RIGHT;
+const DIR_UP : Vector2i = Vector2i.UP;
+const DIR_DOWN : Vector2i = Vector2i.DOWN;
+
+const DIR_TOP_LEFT : Vector2i = Vector2i.LEFT + Vector2i.UP;
+const DIR_TOP_RIGHT : Vector2i = Vector2i.RIGHT + Vector2i.UP;
+const DIR_BOTTOM_LEFT : Vector2i = Vector2i.LEFT + Vector2i.DOWN;
+const DIR_BOTTOM_RIGHT : Vector2i = Vector2i.RIGHT + Vector2i.DOWN;
+
+const SQRT_TWO : float = sqrt(2);
+
+@export var flow_type : FLOWFIELD_TYPE:
+	set(val):
+		flow_type = val;
+		if !field_set:
+			return;
+		_adjust_destination();
+		queue_redraw();
+@export var cost_check : COST_CHECK = COST_CHECK.Best:
+	set(val):
+		cost_check = val;
+		if !field_set:
+			return;
+		_adjust_destination();
+		queue_redraw();
 
 @export var field_set : FieldSet2D:
 	set(val):
@@ -23,6 +46,7 @@ const ARROW_IMAGE_TEXTURE : CompressedTexture2D = preload("res://addons/FlowFiel
 			val.changed.connect(_changed);
 		
 		field_set = val;
+		queue_redraw();
 
 @export_group("Display")
 var _flat_color : Color = FALL_BACK_COLOR:
@@ -38,7 +62,8 @@ var _gradient : Gradient:
 		if val != null:
 			_gradient.changed.connect(queue_redraw);
 		
-		_changed();
+		if field_set:
+			_changed();
 
 var _highlight : Dictionary;
 var _highlight_colors : Dictionary:
@@ -68,7 +93,11 @@ var _color_type : COLOR_PRESET = COLOR_PRESET.GRAY_SCALE:
 			notify_property_list_changed();
 			queue_redraw();
 
-var display_arrows : bool = false;
+var display_arrows : bool = false:
+	set(val):
+		display_arrows = val;
+		set_destination(_destination);
+		queue_redraw();
 var display_numbers : bool = false;
 
 var _destination : Vector2i = Vector2i.ONE;
@@ -147,6 +176,15 @@ func _changed() -> void:
 			_fix_highlight_colors(_highlight.duplicate());
 		else:
 			_get_highlight_colors();
+	
+	if display_arrows:
+		var tiles = field_set._flowFieldPattern;
+		if tiles.is_empty():
+			return;
+		if !tiles.has(destination):
+			destination = tiles.keys()[0];
+		_adjust_destination();
+	
 	queue_redraw();
 	changed.emit();
 
@@ -225,7 +263,10 @@ func _get_default_gradient() -> Gradient:
 	return grd;
 
 func _get_highlight_colors() -> void:
-	var nums : Array[int] = field_set.get_all_different_baises();
+	if !field_set:
+		return;
+	
+	var nums : Array[float] = field_set.get_all_different_baises();
 	nums.sort();
 	_highlight.clear();
 	
@@ -245,7 +286,7 @@ func _fix_highlight_colors(apply : Dictionary = Dictionary()) -> void:
 	if apply.is_empty():
 		_get_highlight_colors();
 	
-	var nums : Array[int] = field_set.get_all_different_baises();
+	var nums : Array[float] = field_set.get_all_different_baises();
 	nums.sort();
 	_highlight.clear();
 	
@@ -261,9 +302,12 @@ func _fix_highlight_colors(apply : Dictionary = Dictionary()) -> void:
 func _assign_all_max() -> void:
 	var tiles = field_set._flowFieldPattern;
 	for tile in tiles.values():
-		tile._value = INT_MAX;
+		tile._value = INF;
 
 func set_destination(dest : Vector2i) -> void:
+	if !field_set:
+		return;
+	
 	var tiles = field_set._flowFieldPattern;
 	if tiles.is_empty():
 		return;
@@ -273,32 +317,71 @@ func set_destination(dest : Vector2i) -> void:
 		return;
 	
 	_destination = dest;
+	_adjust_destination();
+
+func _adjust_destination() -> void:
 	_assign_all_max();
 	
+	var tiles = field_set._flowFieldPattern;
 	var queue : Array[Vector2i] = [destination];
 	
+	var offsets : Array[Vector2i] = _get_cardinal_directions();
+	if flow_type != FLOWFIELD_TYPE.Square_four:
+		offsets.append_array(_get_diagonal_directions())
+	
 	tiles[destination]._value = tiles[destination].bias;
-	while queue.size() > 0:
-		var consider : Vector2i = queue.pop_front();
-		var value : int = tiles[consider]._value;
-		
-		for offset : Vector2i in [Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN]:
-			if tiles.has(consider + offset) && tiles[consider + offset]._set_value(value):
-				queue.push_back(consider + offset);
+	if flow_type == FLOWFIELD_TYPE.Euclidean:
+		while queue.size() > 0:
+			var consider : Vector2i = queue.pop_front();
+			var value : float = tiles[consider]._value;
+			
+			for offset : Vector2i in offsets:
+				if tiles.has(consider + offset) && tiles[consider + offset]._set_value(value):
+					queue.push_back(consider + offset);
+	else:
+		while queue.size() > 0:
+			var consider : Vector2i = queue.pop_front();
+			var value : float = tiles[consider]._value;
+			
+			for offset : Vector2i in _get_cardinal_directions():
+				if tiles.has(consider + offset) && tiles[consider + offset]._set_value(value + 1):
+					queue.push_back(consider + offset);
+			for offset : Vector2i in _get_diagonal_directions():
+				if tiles.has(consider + offset) && tiles[consider + offset]._set_value(value + SQRT_TWO):
+					queue.push_back(consider + offset);
 	
 	for tile_pos in tiles.keys():
-		var best_value : int = INT_MAX;
 		var best_offset : Vector2 = Vector2.ZERO;
-		for offset : Vector2i in [Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN]:
-			if tiles.has(offset + tile_pos):
-				if best_value > tiles[offset + tile_pos]._value:
-					best_value = tiles[offset + tile_pos]._value;
-					best_offset = Vector2(offset).normalized();
+		
+		match cost_check:
+			COST_CHECK.Best:
+				var best_value : float = INF;
+				for offset : Vector2i in offsets:
+					if tiles.has(offset + tile_pos):
+						if best_value > tiles[offset + tile_pos]._value:
+							best_value = tiles[offset + tile_pos]._value;
+							best_offset = Vector2(offset).normalized();
+			COST_CHECK.Worst:
+				var best_value : float = -INF;
+				for offset : Vector2i in offsets:
+					if tiles.has(offset + tile_pos):
+						if best_value < tiles[offset + tile_pos]._value:
+							best_value = tiles[offset + tile_pos]._value;
+							best_offset = Vector2(offset).normalized();
 			
 		tiles[tile_pos].best_direction = best_offset;
 	tiles[destination].best_direction = Vector2.ZERO;
 
+func _get_cardinal_directions() -> Array[Vector2i]:
+	return [DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN];
+
+func _get_diagonal_directions() -> Array[Vector2i]:
+	return [DIR_TOP_LEFT, DIR_TOP_RIGHT, DIR_BOTTOM_LEFT, DIR_BOTTOM_RIGHT];
+
 func _draw() -> void:
+	if !field_set:
+		return;
+	
 	var tiles = field_set._flowFieldPattern
 	var tileSize : Vector2 = field_set.tileSize
 	var tile_rect : Rect2 = Rect2(Vector2.ZERO, tileSize);
@@ -321,7 +404,7 @@ func _draw() -> void:
 			
 			draw_rect(tile_rect, Color.YELLOW_GREEN, false);
 	
-	if display_arrows:
+	if display_arrows && tiles.has(destination):
 		var draw_rect : Rect2;
 		if tileSize.min_axis_index() == Vector2.AXIS_X:
 			var arrow_size := Vector2(tileSize.x, tileSize.x);
@@ -331,11 +414,13 @@ func _draw() -> void:
 			draw_rect = Rect2(-arrow_size * 0.5, arrow_size);
 		
 		var temp_tile : FlowFieldTile2D = tiles[destination];
-		tiles.erase(destination)
+		tiles.erase(destination);
 		for pos : Vector2i in tiles.keys():
-			var angle : float = tiles[pos].best_direction.angle()
+			var dir : Vector2 = tiles[pos].best_direction;
+			if dir == Vector2.ZERO:
+				continue;
 			
-			draw_set_transform((Vector2(pos) + Vector2(0.5, 0.5)) * tileSize, angle, Vector2.ONE);
+			draw_set_transform((Vector2(pos) + Vector2(0.5, 0.5)) * tileSize, dir.angle(), Vector2.ONE);
 			draw_texture_rect(ARROW_IMAGE_TEXTURE, draw_rect, false);
 		tiles[destination] = temp_tile;
 		

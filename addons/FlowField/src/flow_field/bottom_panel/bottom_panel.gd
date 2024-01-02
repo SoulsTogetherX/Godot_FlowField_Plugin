@@ -9,7 +9,7 @@ signal color_changed(toggle : bool);
 signal color_type_changed(color_type : int);
 signal arrow_changed(toggle : bool);
 signal number_changed(toggle : bool);
-signal bias_changed(bias : int);
+signal bias_changed(bias : float);
 signal path_type_changed(path_type : int);
 
 @onready var _spinbox : SpinBox = $tools_buttons/SpinBox;
@@ -69,4 +69,4 @@ func _toggle_grid(toggle: bool) -> void:
 	grid_changed.emit(toggle);
 
 func _change_bias(bias: float) -> void:
-	bias_changed.emit(bias as int);
+	bias_changed.emit(bias);

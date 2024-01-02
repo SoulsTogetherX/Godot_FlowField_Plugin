@@ -79,7 +79,6 @@ func _set_selected(object : FlowField2D) -> void:
 	if _selected.display_numbers != _number || _selected.display_arrows != _arrow:
 		_selected.display_numbers = _number;
 		_selected.display_arrows = _arrow;
-		_selected.queue_redraw();
 
 func _change_visible(toggle : bool) -> void:
 	_visible = toggle;
@@ -89,6 +88,7 @@ func _change_visible(toggle : bool) -> void:
 
 func _change_tool(tool_type : int) -> void:
 	_tool_type = tool_type;
+	_dragging = (_tool_type == TOOL.BUCKET);
 
 func _change_picker(picker : bool) -> void:
 	_picker = picker;
@@ -106,7 +106,6 @@ func _change_arrow(arrow : bool) -> void:
 	_arrow = arrow;
 	if _selected:
 		_selected.display_arrows = arrow;
-		_selected.queue_redraw();
 
 func _color_type_changed(color_type : FlowField2D.COLOR_PRESET) -> void:
 	_color_type = color_type;
@@ -149,9 +148,9 @@ func _forward_canvas_gui_input(event):
 						_update_drag();
 					elif event.is_released():
 						_end_drag();
-		
-		update_overlays();
-		return true;
+			
+			update_overlays();
+			return true;
 	return false;
 
 func _forward_canvas_draw_over_viewport(viewport: Control) -> void:
@@ -204,30 +203,6 @@ func _draw_highlight(viewport: Control, tileSize : Vector2) -> void:
 		tile_rect.position = Vector2(tile_pos.x, tile_pos.y) * tileSize;
 		viewport.draw_rect(tile_rect, HIGHLIGHT_COLOR);
 
-#func _draw_tile_at(draw_at : Vector2i) -> void:
-	#var draw_pos_base : Vector2 = (Vector2(draw_at) + Vector2.DOWN) * _tileSize;
-	#var tile : Tile = _chunk.getTileAt(draw_at);
-#
-	#var draw_str : String = str(tile.bais) if tile else "N/A";
-	#var draw_size : Vector2 = _default_font.get_string_size(draw_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 32);
-	#var scale_size : Vector2 = _tileSize / (draw_size * 2);
-	#if scale_size.x > scale_size.y:
-		#scale_size.x = scale_size.y;
-	#else:
-		#scale_size.y = scale_size.x;
-	#draw_set_transform(position, 0, scale_size);
-	#draw_string(_default_font, draw_pos_base / scale_size + Vector2(0, -2), draw_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 32);
-#
-	#draw_str = str(tile.value) if tile else "N/A";
-	#draw_size = _default_font.get_string_size(draw_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 32);
-	#scale_size = _tileSize / (draw_size * 2);
-	#if scale_size.x > scale_size.y:
-		#scale_size.x = scale_size.y;
-	#else:
-		#scale_size.y = scale_size.x;
-	#draw_set_transform(position, 0, scale_size);
-	#draw_string(_default_font, ((draw_pos_base + Vector2(_tileSize.x, -_tileSize.y)) / scale_size) + Vector2(-draw_size.x, draw_size.y - 20), draw_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 32);
-
 func _begin_drag() -> void:
 	_dragging = true;
 	_last_m_pos = (_selected.get_local_mouse_position() / _selected.field_set.tileSize).floor();
@@ -244,29 +219,12 @@ func _update_drag() -> void:
 			_highlighted_tiles.clear();
 			_bresenham_line_highlight(_last_m_pos, current_tile_pos);
 		TOOL.RECT:
-			# Make this better
-			_highlighted_tiles.clear();
-			
-			var offset : Vector2i = Vector2i(min(_last_m_pos.x, current_tile_pos.x), min(_last_m_pos.y, current_tile_pos.y));
-			var rect_size : Vector2i = (_last_m_pos - current_tile_pos).abs() + Vector2i.ONE;
-			
-			for y in rect_size.y:
-				for x in rect_size.x:
-					var look_up_pos : Vector2i = Vector2i(x, y) + offset;
-					if !_highlighted_tiles.has(look_up_pos):
-						_highlighted_tiles[look_up_pos] = FlowFieldTile2D.new().set_bias(_set_bias);
-			
-			_mid_rect_pos = current_tile_pos;
+			_get_rect_highlight(_last_m_pos, current_tile_pos);
 		TOOL.BUCKET:
-			if !_highlighted_tiles.has(current_tile_pos):
-				if _selected.field_set.has_tile(current_tile_pos):
-					return;
-				
-				_highlighted_tiles.clear();
-				var bound_rect : Rect2i = _selected.field_set.get_used_rect();
+			_get_bucket_highlight(current_tile_pos);
 
 func _end_drag() -> void:
-	_dragging = false;
+	_dragging = (_tool_type == TOOL.BUCKET);
 	
 	if _erase  || _eraser:
 		_selected.field_set.remove_tiles(_highlighted_tiles);
@@ -306,3 +264,52 @@ func _bresenham_line_highlight(p_start : Vector2i, p_end : Vector2i) -> void:
 	
 	if !_highlighted_tiles.has(current):
 		_highlighted_tiles[current] = FlowFieldTile2D.new().set_bias(_set_bias);
+
+func _get_rect_highlight(start : Vector2i, end : Vector2i) -> void:
+	# Make this better
+	_highlighted_tiles.clear();
+	
+	var offset : Vector2i = Vector2i(min(start.x, end.x), min(start.y, end.y));
+	var rect_size : Vector2i = (start - end).abs() + Vector2i.ONE;
+	
+	for y in rect_size.y:
+		for x in rect_size.x:
+			var look_up_pos : Vector2i = Vector2i(x, y) + offset;
+			if !_highlighted_tiles.has(look_up_pos):
+				_highlighted_tiles[look_up_pos] = FlowFieldTile2D.new().set_bias(_set_bias);
+
+func _get_bucket_highlight(check_pos : Vector2i) -> void:
+	if _highlighted_tiles.has(check_pos):
+		return;
+	_highlighted_tiles.clear();
+	
+	var tiles : Dictionary = _selected.field_set._flowFieldPattern;
+	
+	var bound_rect : Rect2i = _selected.field_set.get_used_rect();
+	bound_rect.size += Vector2i.ONE;
+	
+	var queue : Array[Vector2i] = [check_pos];
+	
+	if tiles.has(check_pos):
+		var bias : float = tiles[check_pos].bias;
+		while queue.size() > 0:
+			var current : Vector2i = queue.pop_back();
+			if !tiles.has(current) || tiles[current].bias != bias || _highlighted_tiles.has(current):
+				continue;
+			if !bound_rect.has_point(current):
+				continue;
+			
+			_highlighted_tiles[current] = FlowFieldTile2D.new().set_bias(_set_bias);
+			for offset : Vector2i in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+				queue.append(current + offset);
+	else:
+		while queue.size() > 0:
+			var current : Vector2i = queue.pop_back();
+			if tiles.has(current) || _highlighted_tiles.has(current):
+				continue;
+			if !bound_rect.has_point(current):
+				continue;
+			
+			_highlighted_tiles[current] = FlowFieldTile2D.new().set_bias(_set_bias);
+			for offset : Vector2i in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+				queue.append(current + offset);
