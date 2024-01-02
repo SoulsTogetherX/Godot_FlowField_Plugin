@@ -1,5 +1,5 @@
 @tool
-class_name FieldSet extends Resource
+class_name FieldSet2D extends Resource
 
 enum CellNeighbor {
 	CELL_NEIGHBOR_RIGHT_SIDE = 0,
@@ -29,41 +29,54 @@ enum CellNeighbor {
 
 # Vector2i -> FlowFieldCeil
 var _flowFieldPattern : Dictionary;
+var _used_rect : Rect2i = Rect2i(Vector2i.ZERO, Vector2i.ZERO);
 
 func _get_property_list():
 	var properties = [];
 	properties.append({
 		"name": "_flowFieldPattern",
 		"type": TYPE_DICTIONARY,
-		"usage": PROPERTY_USAGE_NO_EDITOR,
+		"usage": PROPERTY_USAGE_STORAGE,
 	});
-
+	properties.append({
+		"name": "_used_rect",
+		"type": TYPE_RECT2I,
+		"usage": PROPERTY_USAGE_STORAGE,
+	});
+	
 	return properties;
 
 func has_tile(pos : Vector2i) -> bool:
-	return _flowFieldPattern.has[pos];
+	return _flowFieldPattern.has(pos);
 
 func set_tiles(tiles : Dictionary) -> void:
+	var local_rect : Rect2i = _used_rect;
+	
 	for pos in tiles.keys():
 		_flowFieldPattern[pos] = tiles[pos];
+		local_rect = local_rect.expand(pos);
+	
+	_used_rect = local_rect
 	changed.emit();
 
 func remove_tiles(tiles : Dictionary) -> void:
 	for pos in tiles.keys():
 		_flowFieldPattern.erase(pos);
+	
+	var local_rect : Rect2i;
+	var first : bool = true;
+	for pos : Vector2i in _flowFieldPattern.keys():
+		if first:
+			local_rect = Rect2i(pos, Vector2i.ONE);
+			first = false;
+			continue;
+		local_rect = local_rect.expand(pos);
+	
+	_used_rect = local_rect;
 	changed.emit();
 
 func get_used_rect() -> Rect2i:
-	var ret : Rect2i;
-	var first : bool = true;
-	for tile_pos : Vector2i in _flowFieldPattern.keys():
-		if first:
-			ret = Rect2i(tile_pos, Vector2i.ZERO);
-			first = false;
-		else:
-			ret.expand(tile_pos);
-	
-	return ret;
+	return _used_rect;
 
 func get_all_different_baises() -> Array[int]:
 	var ret : Array[int] = [];

@@ -1,7 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://dfgf55qyutu3m"]
+[gd_scene load_steps=32 format=3 uid="uid://dfgf55qyutu3m"]
 
-[ext_resource type="ButtonGroup" uid="uid://cqypyhtfn5xtb" path="res://addons/FlowField/src/bottom_panel/tools_button_group.tres" id="1_c68si"]
-[ext_resource type="Script" path="res://addons/FlowField/src/bottom_panel/bottom_panel.gd" id="1_veqkj"]
+[ext_resource type="ButtonGroup" uid="uid://cqypyhtfn5xtb" path="res://addons/FlowField/src/flow_field/bottom_panel/tools_button_group.tres" id="1_c68si"]
+[ext_resource type="Script" path="res://addons/FlowField/src/flow_field/bottom_panel/bottom_panel.gd" id="1_veqkj"]
 [ext_resource type="Texture2D" uid="uid://de415p38rb5tq" path="res://addons/FlowField/assets/ToolSelect.svg" id="3_sdj5p"]
 [ext_resource type="Texture2D" uid="uid://byove2dx0qjn" path="res://addons/FlowField/assets/Edit.svg" id="4_2a3vi"]
 [ext_resource type="Texture2D" uid="uid://nqc3som5oiox" path="res://addons/FlowField/assets/Line.svg" id="5_b67rm"]
@@ -9,7 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://bh20beo1kyu5a" path="res://addons/FlowField/assets/Bucket.svg" id="7_v0ytr"]
 [ext_resource type="Texture2D" uid="uid://c5o4ytvnybkwl" path="res://addons/FlowField/assets/ColorPick.svg" id="8_rxyhw"]
 [ext_resource type="Texture2D" uid="uid://d3qchsydycjpw" path="res://addons/FlowField/assets/Eraser.svg" id="9_rgh01"]
+[ext_resource type="Texture2D" uid="uid://cgm1sfqxq2yll" path="res://addons/FlowField/assets/arrow.svg" id="10_7qnhy"]
 [ext_resource type="Texture2D" uid="uid://c37gnp4qasv3d" path="res://addons/FlowField/assets/Grid.svg" id="10_cdo0c"]
+[ext_resource type="Texture2D" uid="uid://dkeccde8ifsl8" path="res://addons/FlowField/assets/tile_colors.svg" id="10_euglw"]
+[ext_resource type="Texture2D" uid="uid://8wsh01jh5wur" path="res://addons/FlowField/assets/number.svg" id="11_tryl4"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_labei"]
 device = -1
@@ -59,13 +62,29 @@ unicode = 112
 [sub_resource type="Shortcut" id="Shortcut_7n62k"]
 events = [SubResource("InputEventKey_ksuab")]
 
-[sub_resource type="InputEventKey" id="InputEventKey_pyyk2"]
+[sub_resource type="InputEventKey" id="InputEventKey_gv3tx"]
 device = -1
-keycode = 69
-unicode = 101
+keycode = 65
+unicode = 97
 
 [sub_resource type="Shortcut" id="Shortcut_lv1of"]
-events = [SubResource("InputEventKey_pyyk2")]
+events = [SubResource("InputEventKey_gv3tx")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_hjr0l"]
+device = -1
+keycode = 67
+unicode = 99
+
+[sub_resource type="Shortcut" id="Shortcut_a3idu"]
+events = [SubResource("InputEventKey_hjr0l")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_7kbdf"]
+device = -1
+keycode = 78
+unicode = 110
+
+[sub_resource type="Shortcut" id="Shortcut_v6c4a"]
+events = [SubResource("InputEventKey_7kbdf")]
 
 [node name="BottomPanel" type="Control"]
 layout_mode = 3
@@ -86,7 +105,8 @@ grow_horizontal = 2
 
 [node name="Selection" type="Button" parent="tools_buttons"]
 layout_mode = 2
-tooltip_text = "Selection (S)"
+tooltip_text = "Selection (S)
+Use to change destination arrows will point towards."
 theme_type_variation = &"FlatButton"
 toggle_mode = true
 button_group = ExtResource("1_c68si")
@@ -154,8 +174,9 @@ Page Up & Page Down to step value by 1.
 Hold ALT: step value by 5.
 Hold CTRL: step value by 10.
 Hold ALT + CTRL: step value by 100."
-min_value = -65536.0
+min_value = 1.0
 max_value = 65536.0
+value = 1.0
 rounded = true
 
 [node name="VSeparator2" type="VSeparator" parent="tools_buttons"]
@@ -187,13 +208,71 @@ icon_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Grid" type="Button" parent="tools_buttons"]
+[node name="OptionButton" type="OptionButton" parent="tools_buttons"]
 layout_mode = 2
-tooltip_text = "Toggle grid visibility."
+item_count = 9
+selected = 0
+popup/item_0/text = "Gray Scale"
+popup/item_0/id = 0
+popup/item_1/text = "Blue Scale"
+popup/item_1/id = 1
+popup/item_2/text = "Heat Map"
+popup/item_2/id = 2
+popup/item_3/text = "Rainbow-7"
+popup/item_3/id = 3
+popup/item_4/text = "Rainbow-10"
+popup/item_4/id = 4
+popup/item_5/text = ""
+popup/item_5/id = 8
+popup/item_5/separator = true
+popup/item_6/text = "Flat"
+popup/item_6/id = 5
+popup/item_7/text = "Custom"
+popup/item_7/id = 6
+popup/item_8/text = "Exact"
+popup/item_8/id = 7
+
+[node name="Color" type="Button" parent="tools_buttons"]
+layout_mode = 2
+tooltip_text = "Toggle tile color visibility (C)"
 theme_type_variation = &"FlatButton"
 toggle_mode = true
 button_pressed = true
+shortcut = SubResource("Shortcut_a3idu")
+shortcut_in_tooltip = false
+icon = ExtResource("10_euglw")
+icon_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="tools_buttons"]
+layout_mode = 2
+
+[node name="Arrow" type="Button" parent="tools_buttons"]
+layout_mode = 2
+tooltip_text = "Toggle arrow visibility (A)
+Use the selector tool to change destination."
+theme_type_variation = &"FlatButton"
+toggle_mode = true
 shortcut = SubResource("Shortcut_lv1of")
+shortcut_in_tooltip = false
+icon = ExtResource("10_7qnhy")
+icon_alignment = 1
+
+[node name="Number" type="Button" parent="tools_buttons"]
+layout_mode = 2
+tooltip_text = "Toggle tile bias visibility (N)"
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+shortcut = SubResource("Shortcut_v6c4a")
+shortcut_in_tooltip = false
+icon = ExtResource("11_tryl4")
+icon_alignment = 1
+
+[node name="Grid" type="Button" parent="tools_buttons"]
+layout_mode = 2
+tooltip_text = "Toggle grid visibility"
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+button_pressed = true
 shortcut_in_tooltip = false
 icon = ExtResource("10_cdo0c")
 icon_alignment = 1
@@ -206,4 +285,8 @@ icon_alignment = 1
 [connection signal="value_changed" from="tools_buttons/SpinBox" to="." method="_change_bias"]
 [connection signal="toggled" from="tools_buttons/Picker" to="." method="_toggle_picker"]
 [connection signal="toggled" from="tools_buttons/Eraser" to="." method="_toggle_eraser"]
+[connection signal="item_selected" from="tools_buttons/OptionButton" to="." method="_color_type_changed"]
+[connection signal="toggled" from="tools_buttons/Color" to="." method="_color_changed"]
+[connection signal="toggled" from="tools_buttons/Arrow" to="." method="_toggle_arrow"]
+[connection signal="toggled" from="tools_buttons/Number" to="." method="_toggle_number"]
 [connection signal="toggled" from="tools_buttons/Grid" to="." method="_toggle_grid"]
