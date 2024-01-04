@@ -87,6 +87,7 @@ unicode = 110
 events = [SubResource("InputEventKey_7kbdf")]
 
 [node name="BottomPanel" type="Control"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,6 +179,7 @@ min_value = 1.0
 max_value = 65536.0
 value = 1.0
 rounded = true
+update_on_text_changed = true
 
 [node name="VSeparator2" type="VSeparator" parent="tools_buttons"]
 layout_mode = 2
@@ -276,17 +278,3 @@ button_pressed = true
 shortcut_in_tooltip = false
 icon = ExtResource("10_cdo0c")
 icon_alignment = 1
-
-[connection signal="pressed" from="tools_buttons/Selection" to="." method="_change_tool_type" binds= [1]]
-[connection signal="pressed" from="tools_buttons/Paint" to="." method="_change_tool_type" binds= [2]]
-[connection signal="pressed" from="tools_buttons/Line" to="." method="_change_tool_type" binds= [4]]
-[connection signal="pressed" from="tools_buttons/Rect" to="." method="_change_tool_type" binds= [8]]
-[connection signal="pressed" from="tools_buttons/Bucket" to="." method="_change_tool_type" binds= [16]]
-[connection signal="value_changed" from="tools_buttons/SpinBox" to="." method="_change_bias"]
-[connection signal="toggled" from="tools_buttons/Picker" to="." method="_toggle_picker"]
-[connection signal="toggled" from="tools_buttons/Eraser" to="." method="_toggle_eraser"]
-[connection signal="item_selected" from="tools_buttons/OptionButton" to="." method="_color_type_changed"]
-[connection signal="toggled" from="tools_buttons/Color" to="." method="_color_changed"]
-[connection signal="toggled" from="tools_buttons/Arrow" to="." method="_toggle_arrow"]
-[connection signal="toggled" from="tools_buttons/Number" to="." method="_toggle_number"]
-[connection signal="toggled" from="tools_buttons/Grid" to="." method="_toggle_grid"]

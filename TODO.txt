@@ -1,8 +1,4 @@
-
-
 Position/scale/rotation/skew transformations break everything
-
-Undo/Redo
 
 Add way to access flow field movement
 

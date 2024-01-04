@@ -34,7 +34,6 @@ const SQRT_TWO : float = sqrt(2);
 			return;
 		_adjust_destination();
 		queue_redraw();
-
 @export var field_set : FieldSet2D:
 	set(val):
 		if field_set == val:
@@ -107,6 +106,8 @@ var destination : Vector2i:
 	set(val):
 		set_destination(val);
 
+var _display_alpha : float = 0.2;
+
 func _get_property_list():
 	var properties = [];
 	
@@ -153,7 +154,6 @@ func _property_can_revert(property: StringName) -> bool:
 		"_gradient":
 			return true;
 	return false;
-
 func _property_get_revert(property: StringName) -> Variant:
 	match property:
 		"_gradient":
@@ -163,6 +163,7 @@ func _property_get_revert(property: StringName) -> Variant:
 static var _default_font : Font;
 
 signal changed();
+signal path_recalculated();
 
 func _ready() -> void:
 	if !_default_font:
@@ -171,16 +172,15 @@ func _ready() -> void:
 	set_destination(Vector2i.ZERO);
 
 func _changed() -> void:
+	# updates colors, destination, and display when tile set changes
 	if _color_type != COLOR_PRESET.FLAT:
 		if _color_type == COLOR_PRESET.EXACT:
 			_fix_highlight_colors(_highlight.duplicate());
 		else:
 			_get_highlight_colors();
 	
-	if display_arrows:
-		var tiles = field_set._flowFieldPattern;
-		if tiles.is_empty():
-			return;
+	var tiles = field_set._flowFieldPattern;
+	if !tiles.is_empty():
 		if !tiles.has(destination):
 			destination = tiles.keys()[0];
 		_adjust_destination();
@@ -189,6 +189,7 @@ func _changed() -> void:
 	changed.emit();
 
 func _get_default_gradient() -> Gradient:
+	# Gets the default color pattet when requested
 	var grd = Gradient.new();
 	
 	match _color_type:
@@ -263,6 +264,7 @@ func _get_default_gradient() -> Gradient:
 	return grd;
 
 func _get_highlight_colors() -> void:
+	# Gets colors from color pallet gradient
 	if !field_set:
 		return;
 	
@@ -282,7 +284,21 @@ func _get_highlight_colors() -> void:
 	for num in nums:
 		_highlight[num] = _gradient.sample((num - low) / high);
 
+func _wash_highlight_colors() -> Dictionary:
+	# Applies alpha modulation over each highlight color
+	var ret : Dictionary = Dictionary();
+	
+	var c : Color = Color(1, 1, 1, _display_alpha);
+	for bias in _highlight.keys():
+		ret[bias] = _highlight[bias] * c;
+	
+	return ret;
+
 func _fix_highlight_colors(apply : Dictionary = Dictionary()) -> void:
+	# Ensures all selected highlight colors remain in order and a 1-1
+	# correlation to the biases in the tile set.
+	#
+	# Note : This is mainly used for the "exact" color pallet
 	if apply.is_empty():
 		_get_highlight_colors();
 	
@@ -300,11 +316,13 @@ func _fix_highlight_colors(apply : Dictionary = Dictionary()) -> void:
 		_highlight[num] = Color(randf(), randf(), randf());
 
 func _assign_all_max() -> void:
+	# Used for calculations
 	var tiles = field_set._flowFieldPattern;
 	for tile in tiles.values():
 		tile._value = INF;
 
 func set_destination(dest : Vector2i) -> void:
+	# Checks if calculations are needed to be done based on given destination
 	if !field_set:
 		return;
 	
@@ -320,6 +338,7 @@ func set_destination(dest : Vector2i) -> void:
 	_adjust_destination();
 
 func _adjust_destination() -> void:
+	# Calculates the whole flow field, based on the given flowfield-cost type
 	_assign_all_max();
 	
 	var tiles = field_set._flowFieldPattern;
@@ -329,6 +348,7 @@ func _adjust_destination() -> void:
 	if flow_type != FLOWFIELD_TYPE.Square_four:
 		offsets.append_array(_get_diagonal_directions())
 	
+	# The convolution calculations
 	tiles[destination]._value = tiles[destination].bias;
 	if flow_type == FLOWFIELD_TYPE.Euclidean:
 		while queue.size() > 0:
@@ -350,6 +370,7 @@ func _adjust_destination() -> void:
 				if tiles.has(consider + offset) && tiles[consider + offset]._set_value(value + SQRT_TWO):
 					queue.push_back(consider + offset);
 	
+	# Best/Worst
 	for tile_pos in tiles.keys():
 		var best_offset : Vector2 = Vector2.ZERO;
 		
@@ -371,10 +392,11 @@ func _adjust_destination() -> void:
 			
 		tiles[tile_pos].best_direction = best_offset;
 	tiles[destination].best_direction = Vector2.ZERO;
+	
+	path_recalculated.emit();
 
 func _get_cardinal_directions() -> Array[Vector2i]:
 	return [DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN];
-
 func _get_diagonal_directions() -> Array[Vector2i]:
 	return [DIR_TOP_LEFT, DIR_TOP_RIGHT, DIR_BOTTOM_LEFT, DIR_BOTTOM_RIGHT];
 
@@ -386,24 +408,38 @@ func _draw() -> void:
 	var tileSize : Vector2 = field_set.tileSize
 	var tile_rect : Rect2 = Rect2(Vector2.ZERO, tileSize);
 	
+	# Colors tiles, if needed
 	if _show_in_color:
 		if _color_type == COLOR_PRESET.FLAT:
+			var draw_color : Color = _flat_color;
+			draw_color.a *= _display_alpha;
+			
 			for pos : Vector2i in tiles:
 				tile_rect.position = Vector2(pos) * tileSize;
 				
-				draw_rect(tile_rect, _flat_color, true);
+				draw_rect(tile_rect, draw_color, true);
 		else:
+			var draw_color : Dictionary = _wash_highlight_colors();
+			
 			for pos : Vector2i in tiles:
 				tile_rect.position = Vector2(pos) * tileSize;
 				
-				draw_rect(tile_rect, _highlight[tiles[pos].bias], true);
+				draw_rect(tile_rect, draw_color[tiles[pos].bias], true);
 	
 	elif !display_numbers:
+		# If not coloring the tiles, and no numbers, display a outline on all tiles
+		var draw_color : Color = Color.YELLOW_GREEN;
+		draw_color.a *= _display_alpha;
+		
 		for pos : Vector2i in tiles:
 			tile_rect.position = Vector2(pos) * tileSize;
 			
-			draw_rect(tile_rect, Color.YELLOW_GREEN, false);
+			draw_rect(tile_rect, draw_color, false);
 	
+	var draw_white : Color = Color(1, 1, 1, _display_alpha);
+	var draw_black : Color = Color(0, 0, 0, _display_alpha);
+	
+	# Displays all arrows
 	if display_arrows && tiles.has(destination):
 		var draw_rect : Rect2;
 		if tileSize.min_axis_index() == Vector2.AXIS_X:
@@ -421,13 +457,14 @@ func _draw() -> void:
 				continue;
 			
 			draw_set_transform((Vector2(pos) + Vector2(0.5, 0.5)) * tileSize, dir.angle(), Vector2.ONE);
-			draw_texture_rect(ARROW_IMAGE_TEXTURE, draw_rect, false);
+			draw_texture_rect(ARROW_IMAGE_TEXTURE, draw_rect, false, draw_white);
 		tiles[destination] = temp_tile;
 		
 		draw_set_transform((Vector2(destination) + Vector2(0.5, 0.5)) * tileSize, 0, Vector2.ONE);
-		draw_circle(Vector2.ZERO, draw_rect.position.x * 0.85, Color.BLACK);
-		draw_circle(Vector2.ZERO, draw_rect.position.x * 0.8, Color.WHITE);
+		draw_circle(Vector2.ZERO, draw_rect.position.x * 0.85, draw_black);
+		draw_circle(Vector2.ZERO, draw_rect.position.x * 0.8, draw_white);
 	
+	# Displays all numbers
 	if display_numbers:
 		for pos : Vector2i in tiles:
 			var tileInfo : FlowFieldTile2D = tiles[pos];
@@ -439,5 +476,5 @@ func _draw() -> void:
 			
 			draw_set_transform(Vector2.ZERO, 0.0, Vector2(scale, scale));
 			var str_pos : Vector2 = (((Vector2(pos) * tileSize) + (tileSize * 0.5)) / scale) + Vector2(-draw_size.x * 0.5, draw_size.y * 0.25);
-			draw_string(_default_font, str_pos, draw_str, HORIZONTAL_ALIGNMENT_RIGHT, -1, 32);
-			draw_string_outline(_default_font, str_pos, draw_str, HORIZONTAL_ALIGNMENT_RIGHT, -1, 32, 2, Color.BLACK);
+			draw_string(_default_font, str_pos, draw_str, HORIZONTAL_ALIGNMENT_RIGHT, -1, 32, draw_white);
+			draw_string_outline(_default_font, str_pos, draw_str, HORIZONTAL_ALIGNMENT_RIGHT, -1, 32, 2, draw_black);
