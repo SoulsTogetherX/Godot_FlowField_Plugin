@@ -1,4 +1,6 @@
 @tool
+## 
+## @experimental
 extends EditorPlugin
 
 enum TOOL {NONE = -1, SELECTION, PAINT, LINE, RECT, BUCKET};
@@ -7,7 +9,7 @@ const PLUGIN_PATH := "res://addons/FlowField";
 const HIGHLIGHT_COLOR := Color(0.20784313976765, 0.55686277151108, 1, 0.50196081399918);
 const FADING_LENGTH : int = 5;
 
-var _selected : FlowField2D = null;
+var _selected : FlowField = null;
 var _bottom_panel : Control;
 
 var _tool_type : TOOL = TOOL.NONE:
@@ -17,16 +19,16 @@ var _tool_type : TOOL = TOOL.NONE:
 		_bottom_panel._update_tool_type(val);
 var _picker : bool = false;
 var _eraser : bool = false;
-var _color_type : FlowField2D.COLOR_PRESET = FlowField2D.COLOR_PRESET.GRAY_SCALE:
+var color_pallet : FlowField.COLOR_PRESET = FlowField.COLOR_PRESET.GRAY_SCALE:
 	set(val):
-		_color_type = val;
+		color_pallet = val;
 		if _selected:
-			_selected._color_type = val;
+			_selected.color_pallet = val;
 var _color_display : bool = true:
 	set(val):
 		_color_display = val;
 		if _selected:
-			_selected._show_in_color = val;
+			_selected.show_in_color = val;
 var _number : bool = false:
 	set(val):
 		_number = val;
@@ -55,7 +57,8 @@ var _visible : bool = false;
 var _erase : bool = false;
 
 func _enter_tree():
-	add_custom_type("FlowField2D", "Node2D", preload(PLUGIN_PATH + "/src/flow_field/flow_field_2d.gd"), preload(PLUGIN_PATH + "/assets/flow_field.svg"));
+	add_custom_type("FlowField", "Node2D", preload(PLUGIN_PATH + "/src/flow_field/flow_field.gd"), preload(PLUGIN_PATH + "/assets/flow_field.svg"));
+	add_custom_type("FlowFieldNavigator", "Node2D", preload(PLUGIN_PATH + "/src/navigator/flow_field_navigator.gd"), preload(PLUGIN_PATH + "/assets/flow_field_navigator.svg"));
 	
 	_bottom_panel = preload(PLUGIN_PATH + "/src/flow_field/bottom_panel/bottom_panel.tscn").instantiate();
 	var tool_children : Array[Node] = _bottom_panel.get_node("tools_buttons").get_children();
@@ -71,7 +74,7 @@ func _enter_tree():
 	tool_children[8].toggled.connect(_change_picker);
 	tool_children[9].toggled.connect(_change_eraser);
 	
-	tool_children[11].item_selected.connect(_color_type_changed);
+	tool_children[11].item_selected.connect(color_pallet_changed);
 	tool_children[12].toggled.connect(_color_changed);
 	
 	tool_children[14].toggled.connect(_change_arrow);
@@ -79,12 +82,13 @@ func _enter_tree():
 	tool_children[16].toggled.connect(_change_grid);
 
 func _exit_tree():
-	remove_custom_type("FlowField2D");
+	remove_custom_type("FlowField");
+	remove_custom_type("FlowFieldNavigator");
 	remove_control_from_bottom_panel(_bottom_panel);
 	_bottom_panel.queue_free();
 
 func _handles(object):
-	return object is FlowField2D;
+	return object is FlowField;
 
 func _edit(object: Object) -> void:
 	if object == null:
@@ -93,6 +97,7 @@ func _edit(object: Object) -> void:
 			remove_control_from_bottom_panel(_bottom_panel);
 			
 			_selected._display_alpha = 0.2;
+			_selected.queue_redraw();
 			_selected = null;
 	elif _selected == null:
 		# Selects a new flow field when non is already selected
@@ -107,13 +112,13 @@ func _edit(object: Object) -> void:
 		_set_selected(object);
 	update_overlays();
 
-func _set_selected(object : FlowField2D) -> void:
+func _set_selected(object : FlowField) -> void:
 	if _dragging:
 		_end_drag();
 	_selected = object;
 	_selected._display_alpha = 0.8;
-	_selected._show_in_color = _color_display;
-	_selected._color_type = _color_type;
+	_selected.show_in_color = _color_display;
+	_selected.color_pallet = color_pallet;
 	if _selected.display_numbers != _number || _selected.display_arrows != _arrow:
 		_selected.display_numbers = _number;
 		_selected.display_arrows = _arrow;
@@ -136,7 +141,7 @@ func _update_buttons() -> void:
 	tool_children[8].set_pressed_no_signal(_picker);
 	tool_children[9].set_pressed_no_signal(_eraser);
 	
-	tool_children[11].selected = _color_type;
+	tool_children[11].selected = color_pallet;
 	tool_children[12].set_pressed_no_signal(_color_display);
 	
 	tool_children[14].set_pressed_no_signal(_arrow);
@@ -154,8 +159,8 @@ func _change_picker(picker : bool) -> void:
 	_picker = picker;
 func _change_eraser(eraser : bool) -> void:
 	_eraser = eraser;
-func _color_type_changed(color_type : FlowField2D.COLOR_PRESET) -> void:
-	_color_type = color_type;
+func color_pallet_changed(color_type : FlowField.COLOR_PRESET) -> void:
+	color_pallet = color_type;
 func _color_changed(color : bool) -> void:
 	_color_display = color;
 func _change_number(number : bool) -> void:
@@ -201,7 +206,7 @@ func _forward_canvas_gui_input(event):
 func _forward_canvas_draw_over_viewport(viewport: Control) -> void:
 	if !_visible:
 		return;
-	var field_set : FieldSet2D = _selected.field_set;
+	var field_set : FieldSet = _selected.field_set;
 	
 	# Nothing if there is no field
 	if field_set:
@@ -275,7 +280,7 @@ func _end_drag() -> void:
 	_dragging = (_tool_type == TOOL.BUCKET);
 	
 	if _highlighted_tiles.size() > 0:
-		var field_set : FieldSet2D = _selected.field_set;
+		var field_set : FieldSet = _selected.field_set;
 		var undo_redo : EditorUndoRedoManager = get_undo_redo();
 		
 		undo_redo.create_action("Paint tiles");
@@ -295,6 +300,9 @@ func _end_drag() -> void:
 				else:
 					undo_redo.add_undo_method(field_set, "remove_tile", pos, false);
 			undo_redo.add_undo_method(field_set, "update_size");
+		
+		undo_redo.add_do_method(field_set, "emit_changed");
+		undo_redo.add_undo_method(field_set, "emit_changed");
 		
 		_highlighted_tiles.clear();
 		undo_redo.commit_action();

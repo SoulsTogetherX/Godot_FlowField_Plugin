@@ -187,7 +187,8 @@ layout_mode = 2
 [node name="Picker" type="Button" parent="tools_buttons"]
 layout_mode = 2
 tooltip_text = "Picker (P)
-Alternatively hold Ctrl with other tools to pick tile."
+Alternatively hold Ctrl with other tools to pick tile.
+(Not implemented yet)"
 theme_type_variation = &"FlatButton"
 toggle_mode = true
 shortcut = SubResource("Shortcut_7n62k")
@@ -212,6 +213,7 @@ size_flags_horizontal = 3
 
 [node name="OptionButton" type="OptionButton" parent="tools_buttons"]
 layout_mode = 2
+tooltip_text = "Use to select the color pallet flow fields will be displayed in."
 item_count = 9
 selected = 0
 popup/item_0/text = "Gray Scale"

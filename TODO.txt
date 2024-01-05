@@ -1,5 +1,7 @@
-Position/scale/rotation/skew transformations break everything
-
-Add way to access flow field movement
-
 Color Picker/Patterns
+
+Make pathfinding faster (threading)
+
+Make it pathfind around corners better
+
+Make troops move to last known tile if they get kocked off.

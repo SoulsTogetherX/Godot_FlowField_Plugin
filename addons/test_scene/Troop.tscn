@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://tljop2lo76pa"]
+
+[ext_resource type="Script" path="res://addons/test_scene/Troop.gd" id="1_1ok4q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_grf7s"]
+radius = 5.0
+
+[node name="Troop" type="CharacterBody2D"]
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_1ok4q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_grf7s")
